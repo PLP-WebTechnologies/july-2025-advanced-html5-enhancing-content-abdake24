@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic SEO -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="WFP job application pre-submission checklist. Ensure all profile details, documents, and requirements are ready before applying.">
+  <meta name="keywords" content="WFP, job application, checklist, UN jobs, humanitarian careers">
+  <meta name="author" content="Abdurahman Ziyad Ahmed">
+
+  <!-- Open Graph for social sharing -->
+  <meta property="og:title" content="WFP Application Checklist">
+  <meta property="og:description" content="Verify your WFP job application profile and documents before submission.">
+  <meta property="og:type" content="website">
+
+  <title>WFP Application Pre-Submission Checklist</title>
+
+  <style>
+    :root {
+      --primary: #2a9d8f;
+      --danger: #c0392b;
+      --ok: #2e7d32;
+      --muted: #555;
+      --bg: #f6f8fa;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      margin: 0;
+      line-height: 1.5;
+      color: #222;
+    }
+    header, main, footer {
+      max-width: 900px;
+      margin: auto;
+      padding: 1rem;
+    }
+    header {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      border-radius: 0 0 12px 12px;
+    }
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+    section {
+      background: white;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #23867d;
+    }
+    .status {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 6px;
+    }
+    .ok { background: #e6f4ea; color: var(--ok); }
+    .no { background: #fdecea; color: var(--danger); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>WFP Application Pre-Submission Checklist</h1>
+    <p>Verify your details and documents before applying.</p>
+  </header>
+
+  <main>
+    <section aria-labelledby="profile-heading">
+      <h2 id="profile-heading">Profile Information</h2>
+      <form id="checklistForm" aria-describedby="form-desc">
+        <p id="form-desc">All required fields must be completed before submission.</p>
+
+        <label for="fullName">Full Name <span aria-hidden="true">*</span></label>
+        <input type="text" id="fullName" name="fullName" aria-required="true" required>
+
+        <label for="email">Email Address <span aria-hidden="true">*</span></label>
+        <input type="email" id="email" name="email" aria-required="true" required>
+
+        <label for="employment">Employment Records <span aria-hidden="true">*</span></label>
+        <textarea id="employment" name="employment" aria-required="true" required></textarea>
+
+        <label for="education">Academic Qualifications <span aria-hidden="true">*</span></label>
+        <textarea id="education" name="education" aria-required="true" required></textarea>
+
+        <label for="languages">Language Skills <span aria-hidden="true">*</span></label>
+        <textarea id="languages" name="languages" aria-required="true" required></textarea>
+
+        <label for="unGrade">UN Grade (if applicable)</label>
+        <select id="unGrade" name="unGrade">
+          <option value="">Not applicable</option>
+          <option value="GS">GS</option>
+          <option value="NOA">NOA</option>
+          <option value="P1">P1</option>
+          <option value="P2">P2</option>
+        </select>
+      </form>
+    </section>
+
+    <section aria-labelledby="docs-heading">
+      <h2 id="docs-heading">Required Documents</h2>
+      <form>
+        <label for="cv">Upload CV (PDF/DOC/DOCX) <span aria-hidden="true">*</span></label>
+        <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" aria-required="true" required>
+
+        <label for="cover">Upload Cover Letter (PDF/DOC/DOCX) <span aria-hidden="true">*</span></label>
+        <input type="file" id="cover" name="cover" accept=".pdf,.doc,.docx" aria-required="true" required>
+
+        <label>
+          <input type="checkbox" id="englishConfirm" aria-required="true"> I confirm my documents are in English
+        </label>
+
+        <button type="button" id="verifyBtn">Run Verification</button>
+      </form>
+
+      <div id="statusPanel" hidden>
+        <h3>Verification Status</h3>
+        <div id="statusList"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 WFP Application Helper. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('verifyBtn').addEventListener('click', function() {
+      const statusList = document.getElementById('statusList');
+      statusList.innerHTML = '';
+
+      function addStatus(label, ok) {
+        const div = document.createElement('div');
+        div.className = 'status ' + (ok ? 'ok' : 'no');
+        div.textContent = label + ': ' + (ok ? 'OK' : 'Missing/Invalid');
+        statusList.appendChild(div);
+      }
+
+      const nameOk = document.getElementById('fullName').value.trim().length > 2;
+      const emailOk = document.getElementById('email').checkValidity();
+      const empOk = document.getElementById('employment').value.trim().length > 3;
+      const eduOk = document.getElementById('education').value.trim().length > 3;
+      const langOk = document.getElementById('languages').value.trim().length > 3;
+      const cvOk = document.getElementById('cv').files.length > 0;
+      const coverOk = document.getElementById('cover').files.length > 0;
+      const engOk = document.getElementById('englishConfirm').checked;
+
+      addStatus('Full Name', nameOk);
+      addStatus('Email', emailOk);
+      addStatus('Employment Records', empOk);
+      addStatus('Academic Qualifications', eduOk);
+      addStatus('Language Skills', langOk);
+      addStatus('CV Uploaded', cvOk);
+      addStatus('Cover Letter Uploaded', coverOk);
+      addStatus('English Confirmation', engOk);
+
+      document.getElementById('statusPanel').hidden = false;
+    });
+  </script>
+</body>
+</html>
